@@ -61,7 +61,8 @@
       font-family: Arial, sans-serif;
       margin: 0;
       padding: 20px;
-      padding-bottom: 160px;
+      padding-bottom: 110px;
+      /* solo espacio para barra flotante */
     }
 
     h1,
@@ -138,12 +139,15 @@
     .info-bottom {
       background: white;
       padding: 20px;
-      margin-top: 60px;
 
-      border-radius: 25px 25px 0 0;
+      margin-top: 80px;
+      margin-bottom: 30px;
 
-      box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.15);
+      border-radius: 25px;
+
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
     }
+
 
     /* Progreso */
 
@@ -455,6 +459,29 @@
 
 
     load();
+    /* Detectar cuando aparece la barra final */
+
+    const bottomBar = document.querySelector(".info-bottom");
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+
+        if (entry.isIntersecting) {
+          // Si se ve la barra final → ocultar flotante
+          floatBar.classList.add("hide");
+        } else {
+          // Si no se ve → mostrar flotante
+          floatBar.classList.remove("hide");
+        }
+
+      },
+      {
+        threshold: 0.2
+      }
+    );
+
+    observer.observe(bottomBar);
+
 
   </script>
 
