@@ -229,12 +229,20 @@
 
         div.addEventListener("click", () => {
 
+          const wasCompleted = div.classList.contains("completed");
+
           div.classList.toggle("completed");
+
+          // Solo si se marca (no al desmarcar)
+          if (!wasCompleted) {
+            createHearts();
+          }
 
           updateProgress();
           saveProgress();
 
         });
+
 
         column.appendChild(div);
 
@@ -289,6 +297,26 @@
       });
 
       localStorage.setItem("malla", JSON.stringify(data));
+    }
+    function createHearts() {
+
+      for (let i = 0; i < 15; i++) {
+
+        const heart = document.createElement("div");
+        heart.className = "heart";
+        heart.innerText = "💖";
+
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.animationDuration = (2 + Math.random() * 2) + "s";
+        heart.style.fontSize = (16 + Math.random() * 20) + "px";
+
+        document.body.appendChild(heart);
+
+        setTimeout(() => {
+          heart.remove();
+        }, 3000);
+
+      }
     }
 
 
