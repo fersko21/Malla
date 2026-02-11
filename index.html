@@ -4,16 +4,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
   <link href="https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap" rel="stylesheet">
 
-  <title>Malla Interactiva - Lenguaje y Comunicación</title>
+  <title>Malla Interactiva</title>
+
   <style>
     body {
-      background: linear-gradient(135deg, #ff90c2, #e09eff);
-      font-family: Arial, sans-serif;
       background: #ffb9b9;
+      font-family: Arial, sans-serif;
       margin: 0;
       padding: 20px;
     }
@@ -21,14 +20,12 @@
     h1,
     .dedication {
       font-family: 'Indie Flower', cursive;
+      text-align: center;
+      color: #ff3f3f;
     }
 
     h1 {
-      font-family: 'Pacifico', cursive;
-      font-size: 2.8rem;
-      margin-bottom: 5px;
-      text-align: center;
-      color: #ff3f3f;
+      font-size: 2.5rem;
     }
 
     .grid {
@@ -36,7 +33,6 @@
       grid-template-columns: repeat(10, minmax(140px, 1fr));
       gap: 15px;
       margin-top: 20px;
-      align-items: start;
     }
 
     .semester {
@@ -45,7 +41,6 @@
     }
 
     .course {
-      background: #fff5fb;
       background: white;
       border-radius: 12px;
       padding: 10px;
@@ -53,7 +48,7 @@
       text-align: center;
       cursor: pointer;
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-      transition: all 0.2s ease;
+      transition: 0.2s;
     }
 
     .course:hover {
@@ -62,33 +57,7 @@
     }
 
     .completed {
-      background: #cdefff;
       background: #9be2e7;
-      animation: pop 0.4s ease;
-    }
-
-    @keyframes pop {
-      0% {
-        transform: scale(1);
-      }
-
-      50% {
-        transform: scale(1.15);
-      }
-
-      100% {
-        transform: scale(1);
-      }
-    }
-
-
-    .dedication {
-      font-family: 'Dancing Script', cursive;
-      font-size: 1.9rem;
-      text-align: center;
-      color: #d45c8a;
-      font-weight: normal;
-      margin-bottom: 20px;
     }
 
     .info {
@@ -96,174 +65,189 @@
       background: white;
       padding: 15px;
       border-radius: 12px;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
       max-width: 600px;
-      margin-left: auto;
-      margin-right: auto;
+      margin: auto;
       text-align: center;
+      font-size: 1.1rem;
     }
   </style>
 </head>
 
 <body>
 
-  <h1>📚 Malla Interactiva - Lenguaje y Comunicación</h1>
-  <h2 class="dedication">Para mi vida 💖 futura profe </h2>
-  <p style="text-align:center">Haz clic en una asignatura para marcarla como aprobada amor</p>
+  <h1>📚 Malla Interactiva</h1>
+  <h2 class="dedication">Para mi futura profe 💖</h2>
+
+  <p style="text-align:center">
+    Haz clic para marcar los ramos
+  </p>
 
   <div class="grid" id="grid"></div>
 
-  <div class="info">
-    <p id="finalText">
-      <strong>Falta poquito💖:</strong>
-      <span id="progress">0%</span>
-    </p>
+  <div class="info" id="infoBox">
+    <strong>Falta poquito 💖:</strong>
+    <span id="progress">0%</span>
+    <div id="message"></div>
   </div>
 
+
   <script>
+
+    // Mensajes
     const messages = [
       "Estoy orgulloso de ti 💕",
-      "Un paso más hacia tu sueño ✨",
+      "Un paso más ✨",
       "Eres increíble 😍",
-      "Nunca dudes de ti 💪💖",
-      "Lo lograste, mi amor 🌸",
+      "Nunca te rindas 💪💖",
+      "Lo estás logrando 🌸",
       "Cada día más cerca 👑",
-      "Futura profe estrella ⭐",
+      "Futura profe ⭐",
       "Admiro tu esfuerzo 💞",
       "Vamos que se puede 🔥💖",
-      "Siempre contigo "];
-
-    const semesters = [
-      ["Estudios Literarios", "Literatura General I", "Historia de la Lengua I", "Pedagogía I", "Filosofía y Educación", "Comunicación Oral y Escrita", "Práctica Inicial I"],
-
-      ["Estudios Lingüísticos", "Literatura General II", "Historia de la Lengua II", "Pedagogía II", "Educación Inclusiva", "Psicología del Desarrollo", "Práctica Inicial II"],
-
-      ["Géneros Literarios I", "Lectura de Lírica", "Gramática I", "Curriculum y Diversidad", "Psicología Educacional", "TIC", "Práctica Intermedia I"],
-
-      ["Géneros Literarios II", "Lectura Narrativa", "Gramática II", "Cs. Sociales", "Pensamiento Crítico", "Habilidades TIC", "Práctica Intermedia II"],
-
-      ["Literatura Antigua", "Lit. Hispanoamericana I", "Discurso I", "Curriculum Lenguaje", "Interculturalidad", "Desarrollo Profesional", "Práctica Intermedia III"],
-
-      ["Literatura Medieval", "Lit. Hispanoamericana II", "Discurso II", "Didáctica I", "Liderazgo", "Formación Ciudadana", "Práctica Intermedia IV"],
-
-      ["Literatura Clásica", "Lit. Hispanoamericana III", "Comunicación Multimodal I", "Didáctica II", "Investigación Educativa", "Curso Transversal I", "Práctica Intermedia V"],
-
-      ["Literatura Moderna", "Lit. Hispanoamericana IV", "Comunicación Multimodal II", "Didáctica III", "Seminario Grado", "Curso Transversal II", "Práctica Intermedia VI"],
-
-      ["Literatura Contemporánea", "Teatro Pedagógico", "Seminario Título I", "Electivo", "Práctica Profesional I"],
-
-      ["Seminario Título II", "Práctica Profesional II"]
+      "Siempre contigo 💖"
     ];
 
+
+    // Ramos
+    const semesters = [
+
+      ["Estudios Literarios", "Literatura I", "Historia Lengua I", "Pedagogía I", "Comunicación", "Práctica I"],
+
+      ["Lingüística", "Literatura II", "Historia Lengua II", "Pedagogía II", "Psicología", "Práctica II"],
+
+      ["Géneros I", "Gramática I", "Curriculum", "TIC", "Práctica III"],
+
+      ["Géneros II", "Gramática II", "Pensamiento", "Práctica IV"],
+
+      ["Literatura Antigua", "Discurso I", "Didáctica I", "Práctica V"],
+
+      ["Literatura Medieval", "Discurso II", "Didáctica II", "Práctica VI"],
+
+      ["Literatura Clásica", "Investigación", "Práctica VII"],
+
+      ["Literatura Moderna", "Seminario", "Práctica VIII"],
+
+      ["Literatura Contemporánea", "Seminario I", "Práctica IX"],
+
+      ["Seminario II", "Práctica Final"]
+    ];
+
+
     const grid = document.getElementById("grid");
+    let total = 0;
 
-    let totalCourses = 0;
 
+    // Crear malla
     semesters.forEach((semester, i) => {
 
-      // Crear columna
       const column = document.createElement("div");
       column.style.display = "flex";
       column.style.flexDirection = "column";
       column.style.gap = "10px";
 
-      // Título
+
       const title = document.createElement("div");
       title.className = "semester";
-      title.innerText = `Sem ${i + 1}`;
+      title.innerText = "Sem " + (i + 1);
+
       column.appendChild(title);
 
-      // Ramos
+
       semester.forEach(course => {
-        totalCourses++;
+
+        total++;
 
         const div = document.createElement("div");
         div.className = "course";
         div.innerText = course;
 
+
         div.addEventListener("click", () => {
-          const wasCompleted = div.classList.contains("completed");
+
           div.classList.toggle("completed");
-          if (!wasCompleted) {
-            const randomMsg = messages[Math.floor(Math.random() * messages.length)];
-            alert("💖 " + randomMsg);
-          }
+
           updateProgress();
           saveProgress();
+
         });
 
         column.appendChild(div);
+
       });
 
       grid.appendChild(column);
+
     });
 
+
+    // Actualizar progreso
     function updateProgress() {
+
       const completed = document.querySelectorAll(".completed").length;
-      const percent = Math.round((completed / totalCourses) * 100);
+      const percent = Math.round((completed / total) * 100);
 
-      const progressSpan = document.getElementById("progress");
-      const finalText = document.getElementById("finalText");
+      document.getElementById("progress").innerText = percent + "%";
 
-      progressSpan.innerText = percent + "%";
+      const messageBox = document.getElementById("message");
 
-      // Mensaje final 💖
 
       if (percent === 100) {
-        localStorage.setItem("finalShown", "true");
 
+        messageBox.innerHTML = `
+          💖🎓 <br><strong>¡Felicitaciones amor!</strong><br>
+          Lo lograste con todo tu corazón ❤️✨
+        `;
 
-        finalText.innerHTML = `
-      💖🎓 <strong>¡Felicidades mi amor!</strong> 🎓💖<br>
-      Lo lograste con esfuerzo, pasión y corazón.<br>
-      Estoy orgulloso de ti para siempre ❤️✨
-    `;
+      } else if (completed > 0) {
+
+        const random = messages[Math.floor(Math.random() * messages.length)];
+        messageBox.innerText = random;
 
       } else {
 
-        finalText.innerHTML = `
-      <strong>Falta poquito💖:</strong>
-      <span id="progress">${percent}%</span>
-    `;
+        messageBox.innerText = "";
+
       }
     }
 
 
+    // Guardar progreso
     function saveProgress() {
+
       const data = [];
-      let anyCompleted = false;
 
       document.querySelectorAll(".course").forEach(c => {
-        const isDone = c.classList.contains("completed");
-        data.push(isDone);
-
-        if (isDone) anyCompleted = true;
+        data.push(c.classList.contains("completed"));
       });
 
-      // Guardar progreso
       localStorage.setItem("malla", JSON.stringify(data));
-
-      // Si no hay nada marcado → limpiar mensaje final
-      if (!anyCompleted) {
-        localStorage.removeItem("finalShown");
-      }
     }
 
 
+    // Cargar progreso
     function loadProgress() {
+
       const data = JSON.parse(localStorage.getItem("malla"));
+
       if (!data) return;
 
       document.querySelectorAll(".course").forEach((c, i) => {
-        if (data[i]) c.classList.add("completed");
+
+        if (data[i]) {
+          c.classList.add("completed");
+        } else {
+          c.classList.remove("completed");
+        }
+
       });
 
       updateProgress();
     }
 
-    loadProgress();
-  </script>
 
+    loadProgress();
+
+  </script>
 
 </body>
 
