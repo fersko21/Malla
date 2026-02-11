@@ -23,43 +23,25 @@
     }
 
     @keyframes fall {
-      0% {
-        transform: translateY(0) rotate(0deg);
-        opacity: 1;
-      }
-
-      100% {
+      to {
         transform: translateY(100vh) rotate(360deg);
         opacity: 0;
       }
     }
-
 
     body {
       background: #ffb9b9;
       font-family: Arial, sans-serif;
       margin: 0;
       padding: 20px;
-      padding-bottom: 130px; /* espacio barra */
+      padding-bottom: 160px;
     }
 
-    h1,
-    .dedication {
+    h1, .dedication {
       font-family: 'Indie Flower', cursive;
       text-align: center;
       color: #ff3f3f;
     }
-
-    h1 {
-      font-size: 2.4rem;
-    }
-
-    .dedication {
-      font-size: 1.5rem;
-    }
-
-
-    /* GRID */
 
     .grid {
       display: grid;
@@ -71,10 +53,8 @@
     @media (max-width: 768px) {
       .grid {
         grid-template-columns: repeat(2, 1fr);
-        gap: 10px;
       }
     }
-
 
     .semester {
       text-align: center;
@@ -88,47 +68,56 @@
       font-size: 12px;
       text-align: center;
       cursor: pointer;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
       transition: 0.2s;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     }
 
     .course:hover {
-      transform: scale(1.05);
       background: #9be2e7;
+      transform: scale(1.05);
     }
 
     .completed {
       background: #9be2e7;
     }
 
+    /* Barra flotante */
 
-    /* BARRA */
-
-    .info {
+    .info-float {
       position: fixed;
       bottom: 15px;
       left: 15px;
       right: 15px;
 
       background: white;
-      padding: 14px 16px;
-
+      padding: 14px;
       border-radius: 25px;
 
-      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+      box-shadow: 0 6px 15px rgba(0,0,0,0.2);
 
       z-index: 9999;
 
-      transition: transform 0.4s ease, opacity 0.4s ease;
+      transition: all 0.4s ease;
     }
 
-    .info.hide {
+    .info-float.hide {
       transform: translateY(120%);
       opacity: 0;
     }
 
+    /* Barra final */
 
-    /* PROGRESO */
+    .info-bottom {
+      background: white;
+      padding: 20px;
+      margin-top: 60px;
+
+      border-radius: 25px 25px 0 0;
+
+      box-shadow: 0 -4px 15px rgba(0,0,0,0.15);
+    }
+
+    /* Progreso */
 
     .progress-container {
       width: 100%;
@@ -137,7 +126,6 @@
       border-radius: 20px;
       overflow: hidden;
       margin-top: 10px;
-      box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
     }
 
     .progress-bar {
@@ -148,15 +136,14 @@
       transition: width 0.5s ease;
     }
 
-    #percentText {
-      margin-top: 8px;
+    .percent {
+      margin-top: 6px;
       font-weight: bold;
       color: #ff3f3f;
     }
 
-    #message {
-      margin-top: 10px;
-      font-size: 1.1rem;
+    .message {
+      margin-top: 8px;
       color: #d45c8a;
     }
 
@@ -167,30 +154,42 @@
 
   <h1>📚 Malla Interactiva</h1>
 
-  <h2 class="dedication">
-    Para mi futura profe 💖 te amo mucho
-  </h2>
+  <h2 class="dedication">Para mi futura profe 💖</h2>
 
-  <p style="text-align:center">
-    Haz clic para marcar los ramos amor
-  </p>
+  <p style="text-align:center">Haz clic para marcar los ramos</p>
 
 
   <div class="grid" id="grid"></div>
 
 
-  <!-- BARRA -->
-  <div class="info">
+  <!-- Barra flotante -->
+  <div class="info-float" id="floatBar">
 
     <strong>Progreso 💖</strong>
 
     <div class="progress-container">
-      <div class="progress-bar" id="progressBar"></div>
+      <div class="progress-bar" id="bar1"></div>
     </div>
 
-    <div id="percentText">0%</div>
+    <div class="percent" id="percent1">0%</div>
 
-    <div id="message"></div>
+    <div class="message" id="msg1"></div>
+
+  </div>
+
+
+  <!-- Barra final -->
+  <div class="info-bottom">
+
+    <strong>Progreso Total 💖</strong>
+
+    <div class="progress-container">
+      <div class="progress-bar" id="bar2"></div>
+    </div>
+
+    <div class="percent" id="percent2">0%</div>
+
+    <div class="message" id="msg2"></div>
 
   </div>
 
@@ -198,230 +197,203 @@
 
   <script>
 
-    /* MENSAJES */
-
     const messages = [
       "Estoy orgulloso de ti 💕",
-      "Un paso más ✨",
-      "Eres increíble 😍",
-      "Nunca te rindas 💪💖",
-      "Lo estás logrando 🌸",
-      "Cada día más cerca 👑",
-      "Futura profe ⭐",
-      "Admiro tu esfuerzo 💞",
-      "Vamos que se puede 🔥💖",
-      "Siempre contigo 💖"
+      "Vas increíble ✨",
+      "No pares 💪💖",
+      "Cada paso cuenta 🌸",
+      "Futura profe 👑",
+      "Siempre contigo 💞"
     ];
-
-
-    /* RAMOS */
 
     const semesters = [
 
-      ["Estudios Literarios", "Literatura I", "Historia Lengua I", "Pedagogía I", "Comunicación", "Práctica I"],
+      ["Estudios Literarios","Literatura I","Historia Lengua I","Pedagogía I","Comunicación","Práctica I"],
+      ["Lingüística","Literatura II","Historia Lengua II","Pedagogía II","Psicología","Práctica II"],
+      ["Géneros I","Gramática I","Curriculum","TIC","Práctica III"],
+      ["Géneros II","Gramática II","Pensamiento","Práctica IV"],
+      ["Literatura Antigua","Discurso I","Didáctica I","Práctica V"],
+      ["Literatura Medieval","Discurso II","Didáctica II","Práctica VI"],
+      ["Literatura Clásica","Investigación","Práctica VII"],
+      ["Literatura Moderna","Seminario","Práctica VIII"],
+      ["Literatura Contemporánea","Seminario I","Práctica IX"],
+      ["Seminario II","Práctica Final"]
 
-      ["Lingüística", "Literatura II", "Historia Lengua II", "Pedagogía II", "Psicología", "Práctica II"],
-
-      ["Géneros I", "Gramática I", "Curriculum", "TIC", "Práctica III"],
-
-      ["Géneros II", "Gramática II", "Pensamiento", "Práctica IV"],
-
-      ["Literatura Antigua", "Discurso I", "Didáctica I", "Práctica V"],
-
-      ["Literatura Medieval", "Discurso II", "Didáctica II", "Práctica VI"],
-
-      ["Literatura Clásica", "Investigación", "Práctica VII"],
-
-      ["Literatura Moderna", "Seminario", "Práctica VIII"],
-
-      ["Literatura Contemporánea", "Seminario I", "Práctica IX"],
-
-      ["Seminario II", "Práctica Final"]
     ];
 
 
     const grid = document.getElementById("grid");
-    const progressBar = document.getElementById("progressBar");
-    const percentText = document.getElementById("percentText");
-    const messageBox = document.getElementById("message");
-    const infoBar = document.querySelector(".info");
+
+    const bar1 = document.getElementById("bar1");
+    const bar2 = document.getElementById("bar2");
+
+    const percent1 = document.getElementById("percent1");
+    const percent2 = document.getElementById("percent2");
+
+    const msg1 = document.getElementById("msg1");
+    const msg2 = document.getElementById("msg2");
+
+    const floatBar = document.getElementById("floatBar");
 
     let total = 0;
 
 
-    /* CREAR MALLA */
+    /* Crear malla */
 
-    semesters.forEach((semester, i) => {
+    semesters.forEach((semester,i)=>{
 
-      const column = document.createElement("div");
-      column.style.display = "flex";
-      column.style.flexDirection = "column";
-      column.style.gap = "10px";
-
+      const col = document.createElement("div");
+      col.style.display="flex";
+      col.style.flexDirection="column";
+      col.style.gap="10px";
 
       const title = document.createElement("div");
-      title.className = "semester";
-      title.innerText = "Sem " + (i + 1);
+      title.className="semester";
+      title.innerText="Sem "+(i+1);
 
-      column.appendChild(title);
+      col.appendChild(title);
 
-
-      semester.forEach(course => {
+      semester.forEach(course=>{
 
         total++;
 
-        const div = document.createElement("div");
-        div.className = "course";
-        div.innerText = course;
+        const div=document.createElement("div");
+        div.className="course";
+        div.innerText=course;
 
+        div.onclick=()=>{
 
-        div.addEventListener("click", () => {
+          const done = div.classList.toggle("completed");
 
-          const wasCompleted = div.classList.contains("completed");
+          if(done) createHearts();
 
-          div.classList.toggle("completed");
+          update();
+          save();
 
-          if (!wasCompleted) {
-            createHearts();
-          }
+        };
 
-          updateProgress();
-          saveProgress();
-
-        });
-
-        column.appendChild(div);
+        col.appendChild(div);
 
       });
 
-      grid.appendChild(column);
+      grid.appendChild(col);
 
     });
 
 
+    /* Actualizar progreso */
 
-    /* PROGRESO */
+    function update(){
 
-    function updateProgress() {
+      const completed =
+        document.querySelectorAll(".completed").length;
 
-      const completed = document.querySelectorAll(".completed").length;
+      const percent =
+        Math.round(completed/total*100);
 
-      const percent = Math.round((completed / total) * 100);
+      [bar1,bar2].forEach(b=>{
+        b.style.width = percent+"%";
+      });
 
-      progressBar.style.width = percent + "%";
+      [percent1,percent2].forEach(p=>{
+        p.innerText = percent+"%";
+      });
 
-      percentText.innerText = percent + "%";
+      let text="";
 
-
-      if (percent === 100) {
-
-        messageBox.innerHTML = `
-          💖🎓 <strong>¡Felicitaciones amor!</strong><br>
-          Lo lograste ❤️✨
-        `;
-
-      } else if (completed > 0) {
-
-        const random = messages[Math.floor(Math.random() * messages.length)];
-
-        messageBox.innerText = random;
-
-      } else {
-
-        messageBox.innerText = "";
-
+      if(percent===100){
+        text="🎓💖 ¡Lo lograste!";
       }
+      else if(completed>0){
+        text=messages[Math.floor(Math.random()*messages.length)];
+      }
+
+      msg1.innerText=text;
+      msg2.innerText=text;
+
     }
 
 
+    /* Guardar */
 
-    /* GUARDAR */
+    function save(){
 
-    function saveProgress() {
+      const data=[];
 
-      const data = [];
-
-      document.querySelectorAll(".course").forEach(c => {
+      document.querySelectorAll(".course").forEach(c=>{
         data.push(c.classList.contains("completed"));
       });
 
-      localStorage.setItem("malla", JSON.stringify(data));
+      localStorage.setItem("malla",JSON.stringify(data));
+
     }
 
 
+    /* Cargar */
 
-    /* CARGAR */
+    function load(){
 
-    function loadProgress() {
+      const data =
+        JSON.parse(localStorage.getItem("malla"));
 
-      const data = JSON.parse(localStorage.getItem("malla"));
+      if(!data) return;
 
-      if (!data) return;
+      document.querySelectorAll(".course")
+      .forEach((c,i)=>{
 
-      document.querySelectorAll(".course").forEach((c, i) => {
-
-        if (data[i]) {
-          c.classList.add("completed");
-        }
+        if(data[i]) c.classList.add("completed");
 
       });
 
-      updateProgress();
+      update();
+
     }
 
 
+    /* Corazones */
 
-    /* CORAZONES */
+    function createHearts(){
 
-    function createHearts() {
+      for(let i=0;i<12;i++){
 
-      for (let i = 0; i < 15; i++) {
+        const h=document.createElement("div");
+        h.className="heart";
+        h.innerText="💖";
 
-        const heart = document.createElement("div");
-        heart.className = "heart";
-        heart.innerText = "💖";
+        h.style.left=Math.random()*100+"vw";
 
-        heart.style.left = Math.random() * 100 + "vw";
-        heart.style.animationDuration = (2 + Math.random() * 2) + "s";
-        heart.style.fontSize = (16 + Math.random() * 20) + "px";
+        document.body.appendChild(h);
 
-        document.body.appendChild(heart);
-
-        setTimeout(() => {
-          heart.remove();
-        }, 3000);
+        setTimeout(()=>h.remove(),3000);
 
       }
+
     }
 
 
+    /* Scroll */
 
-    /* SCROLL */
+    let last=0;
 
-    let lastScroll = 0;
+    window.addEventListener("scroll",()=>{
 
-    window.addEventListener("scroll", () => {
+      const now=window.pageYOffset;
 
-      const currentScroll = window.pageYOffset;
-
-      if (currentScroll > lastScroll && currentScroll > 100) {
-        infoBar.classList.add("hide");
+      if(now>last && now>150){
+        floatBar.classList.add("hide");
+      }
+      else{
+        floatBar.classList.remove("hide");
       }
 
-      else {
-        infoBar.classList.remove("hide");
-      }
-
-      lastScroll = currentScroll;
+      last=now;
 
     });
 
 
-
-    loadProgress();
+    load();
 
   </script>
 
 </body>
-
 </html>
