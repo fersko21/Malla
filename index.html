@@ -10,7 +10,8 @@
   <title>Malla Interactiva</title>
 
   <style>
-    /* Corazones animados */
+
+    /* Corazones */
     .heart {
       position: fixed;
       top: -20px;
@@ -34,47 +35,12 @@
     }
 
 
-    /* Barra fija abajo en celular */
-
-    @media (max-width: 768px) {
-
-      body {
-        padding-bottom: 110px;
-        /* espacio para la barra */
-      }
-
-      .info {
-        position: fixed;
-
-        bottom: 15px;
-        left: 15px;
-        right: 15px;
-
-        width: auto;
-        z-index: 9999;
-
-        background: white;
-        padding: 14px 16px;
-
-        border-radius: 25px;
-        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
-      }
-
-    }
-
-
-
-    @media (max-width: 768px) {
-      .info {
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-      }
-    }
-
     body {
       background: #ffb9b9;
       font-family: Arial, sans-serif;
       margin: 0;
       padding: 20px;
+      padding-bottom: 130px; /* espacio barra */
     }
 
     h1,
@@ -85,8 +51,15 @@
     }
 
     h1 {
-      font-size: 2.5rem;
+      font-size: 2.4rem;
     }
+
+    .dedication {
+      font-size: 1.5rem;
+    }
+
+
+    /* GRID */
 
     .grid {
       display: grid;
@@ -94,6 +67,14 @@
       gap: 15px;
       margin-top: 20px;
     }
+
+    @media (max-width: 768px) {
+      .grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+      }
+    }
+
 
     .semester {
       text-align: center;
@@ -120,7 +101,34 @@
       background: #9be2e7;
     }
 
-    /* Barra */
+
+    /* BARRA */
+
+    .info {
+      position: fixed;
+      bottom: 15px;
+      left: 15px;
+      right: 15px;
+
+      background: white;
+      padding: 14px 16px;
+
+      border-radius: 25px;
+
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+
+      z-index: 9999;
+
+      transition: transform 0.4s ease, opacity 0.4s ease;
+    }
+
+    .info.hide {
+      transform: translateY(120%);
+      opacity: 0;
+    }
+
+
+    /* PROGRESO */
 
     .progress-container {
       width: 100%;
@@ -140,18 +148,6 @@
       transition: width 0.5s ease;
     }
 
-    .info {
-      margin-top: 30px;
-      background: white;
-      padding: 20px;
-      border-radius: 12px;
-      max-width: 600px;
-      margin-left: auto;
-      margin-right: auto;
-      text-align: center;
-      font-size: 1.1rem;
-    }
-
     #percentText {
       margin-top: 8px;
       font-weight: bold;
@@ -164,51 +160,26 @@
       color: #d45c8a;
     }
 
-    /* Responsive para celular */
-
-    @media (max-width: 768px) {
-
-      h1 {
-        font-size: 2rem;
-      }
-
-      .dedication {
-        font-size: 1.4rem;
-      }
-
-      .grid {
-        grid-template-columns: repeat(2, 1fr);
-        /* 2 columnas en celular */
-        gap: 10px;
-      }
-
-      .course {
-        font-size: 11px;
-        padding: 8px;
-      }
-
-      .semester {
-        font-size: 13px;
-      }
-
-      .info {
-        font-size: 14px;
-      }
-    }
   </style>
 </head>
 
 <body>
 
   <h1>📚 Malla Interactiva</h1>
-  <h2 class="dedication">Para mi futura profe 💖 te amo mucho</h2>
+
+  <h2 class="dedication">
+    Para mi futura profe 💖 te amo mucho
+  </h2>
 
   <p style="text-align:center">
     Haz clic para marcar los ramos amor
   </p>
 
+
   <div class="grid" id="grid"></div>
 
+
+  <!-- BARRA -->
   <div class="info">
 
     <strong>Progreso 💖</strong>
@@ -224,7 +195,10 @@
   </div>
 
 
+
   <script>
+
+    /* MENSAJES */
 
     const messages = [
       "Estoy orgulloso de ti 💕",
@@ -239,6 +213,8 @@
       "Siempre contigo 💖"
     ];
 
+
+    /* RAMOS */
 
     const semesters = [
 
@@ -268,9 +244,12 @@
     const progressBar = document.getElementById("progressBar");
     const percentText = document.getElementById("percentText");
     const messageBox = document.getElementById("message");
+    const infoBar = document.querySelector(".info");
 
     let total = 0;
 
+
+    /* CREAR MALLA */
 
     semesters.forEach((semester, i) => {
 
@@ -302,7 +281,6 @@
 
           div.classList.toggle("completed");
 
-          // Solo si se marca (no al desmarcar)
           if (!wasCompleted) {
             createHearts();
           }
@@ -311,7 +289,6 @@
           saveProgress();
 
         });
-
 
         column.appendChild(div);
 
@@ -322,24 +299,24 @@
     });
 
 
+
+    /* PROGRESO */
+
     function updateProgress() {
 
       const completed = document.querySelectorAll(".completed").length;
 
       const percent = Math.round((completed / total) * 100);
 
-
-      // Barra
       progressBar.style.width = percent + "%";
 
-      // Texto
       percentText.innerText = percent + "%";
 
 
       if (percent === 100) {
 
         messageBox.innerHTML = `
-          💖🎓 <br><strong>¡Felicitaciones amor!</strong><br>
+          💖🎓 <strong>¡Felicitaciones amor!</strong><br>
           Lo lograste ❤️✨
         `;
 
@@ -357,6 +334,9 @@
     }
 
 
+
+    /* GUARDAR */
+
     function saveProgress() {
 
       const data = [];
@@ -367,6 +347,32 @@
 
       localStorage.setItem("malla", JSON.stringify(data));
     }
+
+
+
+    /* CARGAR */
+
+    function loadProgress() {
+
+      const data = JSON.parse(localStorage.getItem("malla"));
+
+      if (!data) return;
+
+      document.querySelectorAll(".course").forEach((c, i) => {
+
+        if (data[i]) {
+          c.classList.add("completed");
+        }
+
+      });
+
+      updateProgress();
+    }
+
+
+
+    /* CORAZONES */
+
     function createHearts() {
 
       for (let i = 0; i < 15; i++) {
@@ -389,22 +395,27 @@
     }
 
 
-    function loadProgress() {
 
-      const data = JSON.parse(localStorage.getItem("malla"));
+    /* SCROLL */
 
-      if (!data) return;
+    let lastScroll = 0;
 
-      document.querySelectorAll(".course").forEach((c, i) => {
+    window.addEventListener("scroll", () => {
 
-        if (data[i]) {
-          c.classList.add("completed");
-        }
+      const currentScroll = window.pageYOffset;
 
-      });
+      if (currentScroll > lastScroll && currentScroll > 100) {
+        infoBar.classList.add("hide");
+      }
 
-      updateProgress();
-    }
+      else {
+        infoBar.classList.remove("hide");
+      }
+
+      lastScroll = currentScroll;
+
+    });
+
 
 
     loadProgress();
