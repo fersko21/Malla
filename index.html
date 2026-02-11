@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,8 +17,11 @@
       margin: 0;
       padding: 20px;
     }
-   h1, .dedication {
-   font-family: 'Indie Flower', cursive;}
+
+    h1,
+    .dedication {
+      font-family: 'Indie Flower', cursive;
+    }
 
     h1 {
       font-family: 'Pacifico', cursive;
@@ -48,7 +52,7 @@
       font-size: 12px;
       text-align: center;
       cursor: pointer;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
       transition: all 0.2s ease;
     }
 
@@ -60,12 +64,22 @@
     .completed {
       background: #cdefff;
       background: #9be2e7;
-      animation: pop 0.4s ease;}
+      animation: pop 0.4s ease;
+    }
 
     @keyframes pop {
-    0% {transform: scale(1);}
-    50% {transform: scale(1.15);}
-    100% {transform: scale(1);}}
+      0% {
+        transform: scale(1);
+      }
+
+      50% {
+        transform: scale(1.15);
+      }
+
+      100% {
+        transform: scale(1);
+      }
+    }
 
 
     .dedication {
@@ -82,7 +96,7 @@
       background: white;
       padding: 15px;
       border-radius: 12px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
       max-width: 600px;
       margin-left: auto;
       margin-right: auto;
@@ -90,6 +104,7 @@
     }
   </style>
 </head>
+
 <body>
 
   <h1>📚 Malla Interactiva - Lenguaje y Comunicación</h1>
@@ -107,131 +122,149 @@
 
   <script>
     const messages = [
-  "Estoy orgulloso de ti 💕",
-  "Un paso más hacia tu sueño ✨",
-  "Eres increíble 😍",
-  "Nunca dudes de ti 💪💖",
-  "Lo lograste, mi amor 🌸",
-  "Cada día más cerca 👑",
-  "Futura profe estrella ⭐",
-  "Admiro tu esfuerzo 💞",
-  "Vamos que se puede 🔥💖",
-  "Siempre contigo "];
+      "Estoy orgulloso de ti 💕",
+      "Un paso más hacia tu sueño ✨",
+      "Eres increíble 😍",
+      "Nunca dudes de ti 💪💖",
+      "Lo lograste, mi amor 🌸",
+      "Cada día más cerca 👑",
+      "Futura profe estrella ⭐",
+      "Admiro tu esfuerzo 💞",
+      "Vamos que se puede 🔥💖",
+      "Siempre contigo "];
 
-  const semesters = [
-    ["Estudios Literarios", "Literatura General I", "Historia de la Lengua I", "Pedagogía I", "Filosofía y Educación", "Comunicación Oral y Escrita", "Práctica Inicial I"],
+    const semesters = [
+      ["Estudios Literarios", "Literatura General I", "Historia de la Lengua I", "Pedagogía I", "Filosofía y Educación", "Comunicación Oral y Escrita", "Práctica Inicial I"],
 
-    ["Estudios Lingüísticos", "Literatura General II", "Historia de la Lengua II", "Pedagogía II", "Educación Inclusiva", "Psicología del Desarrollo", "Práctica Inicial II"],
+      ["Estudios Lingüísticos", "Literatura General II", "Historia de la Lengua II", "Pedagogía II", "Educación Inclusiva", "Psicología del Desarrollo", "Práctica Inicial II"],
 
-    ["Géneros Literarios I", "Lectura de Lírica", "Gramática I", "Curriculum y Diversidad", "Psicología Educacional", "TIC", "Práctica Intermedia I"],
+      ["Géneros Literarios I", "Lectura de Lírica", "Gramática I", "Curriculum y Diversidad", "Psicología Educacional", "TIC", "Práctica Intermedia I"],
 
-    ["Géneros Literarios II", "Lectura Narrativa", "Gramática II", "Cs. Sociales", "Pensamiento Crítico", "Habilidades TIC", "Práctica Intermedia II"],
+      ["Géneros Literarios II", "Lectura Narrativa", "Gramática II", "Cs. Sociales", "Pensamiento Crítico", "Habilidades TIC", "Práctica Intermedia II"],
 
-    ["Literatura Antigua", "Lit. Hispanoamericana I", "Discurso I", "Curriculum Lenguaje", "Interculturalidad", "Desarrollo Profesional", "Práctica Intermedia III"],
+      ["Literatura Antigua", "Lit. Hispanoamericana I", "Discurso I", "Curriculum Lenguaje", "Interculturalidad", "Desarrollo Profesional", "Práctica Intermedia III"],
 
-    ["Literatura Medieval", "Lit. Hispanoamericana II", "Discurso II", "Didáctica I", "Liderazgo", "Formación Ciudadana", "Práctica Intermedia IV"],
+      ["Literatura Medieval", "Lit. Hispanoamericana II", "Discurso II", "Didáctica I", "Liderazgo", "Formación Ciudadana", "Práctica Intermedia IV"],
 
-    ["Literatura Clásica", "Lit. Hispanoamericana III", "Comunicación Multimodal I", "Didáctica II", "Investigación Educativa", "Curso Transversal I", "Práctica Intermedia V"],
+      ["Literatura Clásica", "Lit. Hispanoamericana III", "Comunicación Multimodal I", "Didáctica II", "Investigación Educativa", "Curso Transversal I", "Práctica Intermedia V"],
 
-    ["Literatura Moderna", "Lit. Hispanoamericana IV", "Comunicación Multimodal II", "Didáctica III", "Seminario Grado", "Curso Transversal II", "Práctica Intermedia VI"],
+      ["Literatura Moderna", "Lit. Hispanoamericana IV", "Comunicación Multimodal II", "Didáctica III", "Seminario Grado", "Curso Transversal II", "Práctica Intermedia VI"],
 
-    ["Literatura Contemporánea", "Teatro Pedagógico", "Seminario Título I", "Electivo", "Práctica Profesional I"],
+      ["Literatura Contemporánea", "Teatro Pedagógico", "Seminario Título I", "Electivo", "Práctica Profesional I"],
 
-    ["Seminario Título II", "Práctica Profesional II"]
-  ];
+      ["Seminario Título II", "Práctica Profesional II"]
+    ];
 
-  const grid = document.getElementById("grid");
+    const grid = document.getElementById("grid");
 
-  let totalCourses = 0;
+    let totalCourses = 0;
 
-  semesters.forEach((semester, i) => {
+    semesters.forEach((semester, i) => {
 
-    // Crear columna
-    const column = document.createElement("div");
-    column.style.display = "flex";
-    column.style.flexDirection = "column";
-    column.style.gap = "10px";
+      // Crear columna
+      const column = document.createElement("div");
+      column.style.display = "flex";
+      column.style.flexDirection = "column";
+      column.style.gap = "10px";
 
-    // Título
-    const title = document.createElement("div");
-    title.className = "semester";
-    title.innerText = `Sem ${i + 1}`;
-    column.appendChild(title);
+      // Título
+      const title = document.createElement("div");
+      title.className = "semester";
+      title.innerText = `Sem ${i + 1}`;
+      column.appendChild(title);
 
-    // Ramos
-    semester.forEach(course => {
-      totalCourses++;
+      // Ramos
+      semester.forEach(course => {
+        totalCourses++;
 
-      const div = document.createElement("div");
-      div.className = "course";
-      div.innerText = course;
+        const div = document.createElement("div");
+        div.className = "course";
+        div.innerText = course;
 
-      div.addEventListener("click", () => {
-        const wasCompleted = div.classList.contains("completed");
-        div.classList.toggle("completed");
-        if (!wasCompleted) {
-        const randomMsg = messages[Math.floor(Math.random() * messages.length)];
-        alert("💖 " + randomMsg);}
-        updateProgress();
-        saveProgress();
+        div.addEventListener("click", () => {
+          const wasCompleted = div.classList.contains("completed");
+          div.classList.toggle("completed");
+          if (!wasCompleted) {
+            const randomMsg = messages[Math.floor(Math.random() * messages.length)];
+            alert("💖 " + randomMsg);
+          }
+          updateProgress();
+          saveProgress();
+        });
+
+        column.appendChild(div);
       });
 
-      column.appendChild(div);
+      grid.appendChild(column);
     });
 
-    grid.appendChild(column);
-  });
+    function updateProgress() {
+      const completed = document.querySelectorAll(".completed").length;
+      const percent = Math.round((completed / totalCourses) * 100);
 
-  function updateProgress() {
-  const completed = document.querySelectorAll(".completed").length;
-  const percent = Math.round((completed / totalCourses) * 100);
+      const progressSpan = document.getElementById("progress");
+      const finalText = document.getElementById("finalText");
 
-  const progressSpan = document.getElementById("progress");
-  const finalText = document.getElementById("finalText");
+      progressSpan.innerText = percent + "%";
 
-  progressSpan.innerText = percent + "%";
+      // Mensaje final 💖
 
-  // Mensaje final 💖
-  if (percent === 100) {
+      if (percent === 100) {
+        localStorage.setItem("finalShown", "true");
 
-    finalText.innerHTML = `
+
+        finalText.innerHTML = `
       💖🎓 <strong>¡Felicidades mi amor!</strong> 🎓💖<br>
       Lo lograste con esfuerzo, pasión y corazón.<br>
       Estoy orgulloso de ti para siempre ❤️✨
     `;
 
-  } else {
+      } else {
 
-    finalText.innerHTML = `
+        finalText.innerHTML = `
       <strong>Falta poquito💖:</strong>
       <span id="progress">${percent}%</span>
     `;
-  }
-}
+      }
+    }
 
 
-  function saveProgress() {
-    const data = [];
-    document.querySelectorAll(".course").forEach(c => {
-      data.push(c.classList.contains("completed"));
-    });
-    localStorage.setItem("malla", JSON.stringify(data));
-  }
+    function saveProgress() {
+      const data = [];
+      let anyCompleted = false;
 
-  function loadProgress() {
-    const data = JSON.parse(localStorage.getItem("malla"));
-    if (!data) return;
+      document.querySelectorAll(".course").forEach(c => {
+        const isDone = c.classList.contains("completed");
+        data.push(isDone);
 
-    document.querySelectorAll(".course").forEach((c, i) => {
-      if (data[i]) c.classList.add("completed");
-    });
+        if (isDone) anyCompleted = true;
+      });
 
-    updateProgress();
-  }
+      // Guardar progreso
+      localStorage.setItem("malla", JSON.stringify(data));
 
-  loadProgress();
-</script>
+      // Si no hay nada marcado → limpiar mensaje final
+      if (!anyCompleted) {
+        localStorage.removeItem("finalShown");
+      }
+    }
+
+
+    function loadProgress() {
+      const data = JSON.parse(localStorage.getItem("malla"));
+      if (!data) return;
+
+      document.querySelectorAll(".course").forEach((c, i) => {
+        if (data[i]) c.classList.add("completed");
+      });
+
+      updateProgress();
+    }
+
+    loadProgress();
+  </script>
 
 
 </body>
+
 </html>
