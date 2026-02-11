@@ -33,22 +33,32 @@
       }
     }
 
+
     /* Barra fija en celular */
 
     @media (max-width: 768px) {
 
+      body {
+        padding-top: 90px;
+        /* espacio para la barra */
+      }
+
       .info {
-        position: sticky;
+        position: fixed;
         top: 0;
-        z-index: 1000;
+        left: 0;
+        width: 100%;
+        z-index: 9999;
+
         background: white;
-        margin-top: 0;
-        margin-bottom: 15px;
-        padding: 12px;
-        border-radius: 0 0 15px 15px;
+        padding: 12px 15px;
+
+        border-radius: 0 0 20px 20px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
       }
 
     }
+
 
     @media (max-width: 768px) {
       .info {
