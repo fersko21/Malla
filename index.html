@@ -8,7 +8,7 @@
     body {
       background: linear-gradient(135deg, #ffe4f0, #e6f4ff);
       font-family: Arial, sans-serif;
-      background: #f0b3b3;
+      background: #f5f5f5;
       margin: 0;
       padding: 20px;
     }
@@ -16,14 +16,15 @@
     h1 {
       margin-bottom: 5px;
       text-align: center;
-      color: #7de1ff;
+      color: #e26b2c;
     }
 
     .grid {
       display: grid;
-      grid-template-columns: repeat(10, 1fr);
-      gap: 10px;
+      grid-template-columns: repeat(10, minmax(140px, 1fr));
+      gap: 15px;
       margin-top: 20px;
+      align-items: start;
     }
 
     .semester {
@@ -48,8 +49,9 @@
     }
 
     .completed {
-      background: #7de1ff;
-      background: #7de1ff;
+      background: #cdefff;
+      background: #9be7a3;
+      text-decoration: line-through;
     }
 
     .dedication {
@@ -75,7 +77,7 @@
 <body>
 
   <h1>📚 Malla Interactiva - Lenguaje y Comunicación</h1>
-  <h2 class="dedication">Para mi amor 💖 — futura profe </h2>
+  <h2 class="dedication">Para mi amor 💖 — futura profe increíble</h2>
   <p style="text-align:center">Haz clic en una asignatura para marcarla como aprobada</p>
 
   <div class="grid" id="grid"></div>
@@ -86,15 +88,25 @@
 
   <script>
     const semesters = [
+      // Sem 1
       ["Estudios Literarios", "Literatura General I", "Historia de la Lengua I", "Pedagogía I", "Filosofía y Educación", "Comunicación Oral y Escrita", "Práctica Inicial I"],
+      // Sem 2
       ["Estudios Lingüísticos", "Literatura General II", "Historia de la Lengua II", "Pedagogía II", "Educación Inclusiva", "Psicología del Desarrollo", "Práctica Inicial II"],
+      // Sem 3
       ["Géneros Literarios I", "Lectura de Lírica", "Gramática I", "Curriculum y Diversidad", "Psicología Educacional", "TIC", "Práctica Intermedia I"],
+      // Sem 4
       ["Géneros Literarios II", "Lectura Narrativa", "Gramática II", "Cs. Sociales", "Pensamiento Crítico", "Habilidades TIC", "Práctica Intermedia II"],
+      // Sem 5
       ["Literatura Antigua", "Lit. Hispanoamericana I", "Discurso I", "Curriculum Lenguaje", "Interculturalidad", "Desarrollo Profesional", "Práctica Intermedia III"],
+      // Sem 6
       ["Literatura Medieval", "Lit. Hispanoamericana II", "Discurso II", "Didáctica I", "Liderazgo", "Formación Ciudadana", "Práctica Intermedia IV"],
+      // Sem 7
       ["Literatura Clásica", "Lit. Hispanoamericana III", "Comunicación Multimodal I", "Didáctica II", "Investigación Educativa", "Curso Transversal I", "Práctica Intermedia V"],
+      // Sem 8
       ["Literatura Moderna", "Lit. Hispanoamericana IV", "Comunicación Multimodal II", "Didáctica III", "Seminario Grado", "Curso Transversal II", "Práctica Intermedia VI"],
+      // Sem 9
       ["Literatura Contemporánea", "Teatro Pedagógico", "Seminario Título I", "Electivo", "Práctica Profesional I"],
+      // Sem 10
       ["Seminario Título II", "Práctica Profesional II"]
     ];
 
