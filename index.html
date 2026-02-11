@@ -21,7 +21,7 @@
     .dedication {
       font-family: 'Indie Flower', cursive;
       text-align: center;
-      color: #9be2e7;
+      color: #ff3f3f;
     }
 
     h1 {
@@ -60,15 +60,48 @@
       background: #9be2e7;
     }
 
+    /* Barra */
+
+    .progress-container {
+      width: 100%;
+      height: 25px;
+      background: #ffe6ee;
+      border-radius: 20px;
+      overflow: hidden;
+      margin-top: 10px;
+      box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #9be2e7, #b8f1f5);
+      border-radius: 20px;
+      transition: width 0.5s ease;
+    }
+
     .info {
       margin-top: 30px;
       background: white;
-      padding: 15px;
+      padding: 20px;
       border-radius: 12px;
       max-width: 600px;
-      margin: auto;
+      margin-left: auto;
+      margin-right: auto;
       text-align: center;
       font-size: 1.1rem;
+    }
+
+    #percentText {
+      margin-top: 8px;
+      font-weight: bold;
+      color: #ff3f3f;
+    }
+
+    #message {
+      margin-top: 10px;
+      font-size: 1.1rem;
+      color: #d45c8a;
     }
   </style>
 </head>
@@ -76,7 +109,7 @@
 <body>
 
   <h1>📚 Malla Interactiva</h1>
-  <h2 class="dedication">Para mi futura profe 💖 Te amo mucho</h2>
+  <h2 class="dedication">Para mi futura profe 💖 te amo mucho</h2>
 
   <p style="text-align:center">
     Haz clic para marcar los ramos amor
@@ -84,16 +117,23 @@
 
   <div class="grid" id="grid"></div>
 
-  <div class="info" id="infoBox">
-    <strong>Falta poquito 💖:</strong>
-    <span id="progress">0%</span>
+  <div class="info">
+
+    <strong>Progreso 💖</strong>
+
+    <div class="progress-container">
+      <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <div id="percentText">0%</div>
+
     <div id="message"></div>
+
   </div>
 
 
   <script>
 
-    // Mensajes
     const messages = [
       "Estoy orgulloso de ti 💕",
       "Un paso más ✨",
@@ -108,7 +148,6 @@
     ];
 
 
-    // Ramos
     const semesters = [
 
       ["Estudios Literarios", "Literatura I", "Historia Lengua I", "Pedagogía I", "Comunicación", "Práctica I"],
@@ -134,10 +173,13 @@
 
 
     const grid = document.getElementById("grid");
+    const progressBar = document.getElementById("progressBar");
+    const percentText = document.getElementById("percentText");
+    const messageBox = document.getElementById("message");
+
     let total = 0;
 
 
-    // Crear malla
     semesters.forEach((semester, i) => {
 
       const column = document.createElement("div");
@@ -180,27 +222,31 @@
     });
 
 
-    // Actualizar progreso
     function updateProgress() {
 
       const completed = document.querySelectorAll(".completed").length;
+
       const percent = Math.round((completed / total) * 100);
 
-      document.getElementById("progress").innerText = percent + "%";
 
-      const messageBox = document.getElementById("message");
+      // Barra
+      progressBar.style.width = percent + "%";
+
+      // Texto
+      percentText.innerText = percent + "%";
 
 
       if (percent === 100) {
 
         messageBox.innerHTML = `
           💖🎓 <br><strong>¡Felicitaciones amor!</strong><br>
-          Lo lograste con todo tu corazón ❤️✨
+          Lo lograste ❤️✨
         `;
 
       } else if (completed > 0) {
 
         const random = messages[Math.floor(Math.random() * messages.length)];
+
         messageBox.innerText = random;
 
       } else {
@@ -211,7 +257,6 @@
     }
 
 
-    // Guardar progreso
     function saveProgress() {
 
       const data = [];
@@ -224,7 +269,6 @@
     }
 
 
-    // Cargar progreso
     function loadProgress() {
 
       const data = JSON.parse(localStorage.getItem("malla"));
@@ -235,8 +279,6 @@
 
         if (data[i]) {
           c.classList.add("completed");
-        } else {
-          c.classList.remove("completed");
         }
 
       });
