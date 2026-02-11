@@ -10,7 +10,6 @@
   <title>Malla Interactiva</title>
 
   <style>
-
     /* Corazones */
     .heart {
       position: fixed;
@@ -29,6 +28,34 @@
       }
     }
 
+    /* Animación vibración suave */
+
+    @keyframes softVibrate {
+      0% {
+        transform: translateX(0);
+      }
+
+      25% {
+        transform: translateX(-2px);
+      }
+
+      50% {
+        transform: translateX(2px);
+      }
+
+      75% {
+        transform: translateX(-2px);
+      }
+
+      100% {
+        transform: translateX(0);
+      }
+    }
+
+    .vibrate {
+      animation: softVibrate 0.25s ease;
+    }
+
     body {
       background: #ffb9b9;
       font-family: Arial, sans-serif;
@@ -37,7 +64,8 @@
       padding-bottom: 160px;
     }
 
-    h1, .dedication {
+    h1,
+    .dedication {
       font-family: 'Indie Flower', cursive;
       text-align: center;
       color: #ff3f3f;
@@ -69,7 +97,7 @@
       text-align: center;
       cursor: pointer;
       transition: 0.2s;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     }
 
     .course:hover {
@@ -93,7 +121,7 @@
       padding: 14px;
       border-radius: 25px;
 
-      box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
 
       z-index: 9999;
 
@@ -114,7 +142,7 @@
 
       border-radius: 25px 25px 0 0;
 
-      box-shadow: 0 -4px 15px rgba(0,0,0,0.15);
+      box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.15);
     }
 
     /* Progreso */
@@ -146,7 +174,6 @@
       margin-top: 8px;
       color: #d45c8a;
     }
-
   </style>
 </head>
 
@@ -208,19 +235,18 @@
 
     const semesters = [
 
-      ["Estudios Literarios","Literatura I","Historia Lengua I","Pedagogía I","Comunicación","Práctica I"],
-      ["Lingüística","Literatura II","Historia Lengua II","Pedagogía II","Psicología","Práctica II"],
-      ["Géneros I","Gramática I","Curriculum","TIC","Práctica III"],
-      ["Géneros II","Gramática II","Pensamiento","Práctica IV"],
-      ["Literatura Antigua","Discurso I","Didáctica I","Práctica V"],
-      ["Literatura Medieval","Discurso II","Didáctica II","Práctica VI"],
-      ["Literatura Clásica","Investigación","Práctica VII"],
-      ["Literatura Moderna","Seminario","Práctica VIII"],
-      ["Literatura Contemporánea","Seminario I","Práctica IX"],
-      ["Seminario II","Práctica Final"]
+      ["Estudios Literarios", "Literatura I", "Historia Lengua I", "Pedagogía I", "Comunicación", "Práctica I"],
+      ["Lingüística", "Literatura II", "Historia Lengua II", "Pedagogía II", "Psicología", "Práctica II"],
+      ["Géneros I", "Gramática I", "Curriculum", "TIC", "Práctica III"],
+      ["Géneros II", "Gramática II", "Pensamiento", "Práctica IV"],
+      ["Literatura Antigua", "Discurso I", "Didáctica I", "Práctica V"],
+      ["Literatura Medieval", "Discurso II", "Didáctica II", "Práctica VI"],
+      ["Literatura Clásica", "Investigación", "Práctica VII"],
+      ["Literatura Moderna", "Seminario", "Práctica VIII"],
+      ["Literatura Contemporánea", "Seminario I", "Práctica IX"],
+      ["Seminario II", "Práctica Final"]
 
     ];
-
 
     const grid = document.getElementById("grid");
 
@@ -236,36 +262,40 @@
     const floatBar = document.getElementById("floatBar");
 
     let total = 0;
+    let currentPercent = 0;
 
 
     /* Crear malla */
 
-    semesters.forEach((semester,i)=>{
+    semesters.forEach((semester, i) => {
 
       const col = document.createElement("div");
-      col.style.display="flex";
-      col.style.flexDirection="column";
-      col.style.gap="10px";
+      col.style.display = "flex";
+      col.style.flexDirection = "column";
+      col.style.gap = "10px";
 
       const title = document.createElement("div");
-      title.className="semester";
-      title.innerText="Sem "+(i+1);
+      title.className = "semester";
+      title.innerText = "Sem " + (i + 1);
 
       col.appendChild(title);
 
-      semester.forEach(course=>{
+      semester.forEach(course => {
 
         total++;
 
-        const div=document.createElement("div");
-        div.className="course";
-        div.innerText=course;
+        const div = document.createElement("div");
+        div.className = "course";
+        div.innerText = course;
 
-        div.onclick=()=>{
+        div.onclick = () => {
 
           const done = div.classList.toggle("completed");
 
-          if(done) createHearts();
+          if (done) {
+            createHearts();
+            vibrate();
+          }
 
           update();
           save();
@@ -281,69 +311,102 @@
     });
 
 
+    /* Animar porcentaje */
+
+    function animatePercent(target) {
+
+      const step = target > currentPercent ? 1 : -1;
+
+      const interval = setInterval(() => {
+
+        currentPercent += step;
+
+        percent1.innerText = currentPercent + "%";
+        percent2.innerText = currentPercent + "%";
+
+        if (currentPercent === target) {
+          clearInterval(interval);
+        }
+
+      }, 15);
+
+    }
+
+
     /* Actualizar progreso */
 
-    function update(){
+    function update() {
 
       const completed =
         document.querySelectorAll(".completed").length;
 
       const percent =
-        Math.round(completed/total*100);
+        Math.round(completed / total * 100);
 
-      [bar1,bar2].forEach(b=>{
-        b.style.width = percent+"%";
+      [bar1, bar2].forEach(b => {
+        b.style.width = percent + "%";
       });
 
-      [percent1,percent2].forEach(p=>{
-        p.innerText = percent+"%";
-      });
+      animatePercent(percent);
 
-      let text="";
+      let text = "";
 
-      if(percent===100){
-        text="🎓💖 ¡Lo lograste!";
+      if (percent === 100) {
+        text = "🎓💖 ¡Lo lograste!";
       }
-      else if(completed>0){
-        text=messages[Math.floor(Math.random()*messages.length)];
+      else if (completed > 0) {
+        text = messages[Math.floor(Math.random() * messages.length)];
       }
 
-      msg1.innerText=text;
-      msg2.innerText=text;
+      msg1.innerText = text;
+      msg2.innerText = text;
+
+    }
+
+
+    /* Vibración suave */
+
+    function vibrate() {
+
+      floatBar.classList.add("vibrate");
+
+      setTimeout(() => {
+        floatBar.classList.remove("vibrate");
+      }, 300);
 
     }
 
 
     /* Guardar */
 
-    function save(){
+    function save() {
 
-      const data=[];
+      const data = [];
 
-      document.querySelectorAll(".course").forEach(c=>{
+      document.querySelectorAll(".course").forEach(c => {
         data.push(c.classList.contains("completed"));
       });
 
-      localStorage.setItem("malla",JSON.stringify(data));
+      localStorage.setItem("malla", JSON.stringify(data));
 
     }
 
 
     /* Cargar */
 
-    function load(){
+    function load() {
 
       const data =
         JSON.parse(localStorage.getItem("malla"));
 
-      if(!data) return;
+      if (!data) return;
 
       document.querySelectorAll(".course")
-      .forEach((c,i)=>{
+        .forEach((c, i) => {
 
-        if(data[i]) c.classList.add("completed");
+          if (data[i]) c.classList.add("completed");
 
-      });
+        });
 
       update();
 
@@ -352,19 +415,19 @@
 
     /* Corazones */
 
-    function createHearts(){
+    function createHearts() {
 
-      for(let i=0;i<12;i++){
+      for (let i = 0; i < 12; i++) {
 
-        const h=document.createElement("div");
-        h.className="heart";
-        h.innerText="💖";
+        const h = document.createElement("div");
+        h.className = "heart";
+        h.innerText = "💖";
 
-        h.style.left=Math.random()*100+"vw";
+        h.style.left = Math.random() * 100 + "vw";
 
         document.body.appendChild(h);
 
-        setTimeout(()=>h.remove(),3000);
+        setTimeout(() => h.remove(), 3000);
 
       }
 
@@ -373,20 +436,20 @@
 
     /* Scroll */
 
-    let last=0;
+    let last = 0;
 
-    window.addEventListener("scroll",()=>{
+    window.addEventListener("scroll", () => {
 
-      const now=window.pageYOffset;
+      const now = window.pageYOffset;
 
-      if(now>last && now>150){
+      if (now > last && now > 150) {
         floatBar.classList.add("hide");
       }
-      else{
+      else {
         floatBar.classList.remove("hide");
       }
 
-      last=now;
+      last = now;
 
     });
 
@@ -395,5 +458,7 @@
 
   </script>
 
+
 </body>
+
 </html>
