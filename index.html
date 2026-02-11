@@ -34,30 +34,34 @@
     }
 
 
-    /* Barra fija en celular */
+    /* Barra fija abajo en celular */
 
     @media (max-width: 768px) {
 
       body {
-        padding-top: 90px;
+        padding-bottom: 110px;
         /* espacio para la barra */
       }
 
       .info {
         position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
+
+        bottom: 15px;
+        left: 15px;
+        right: 15px;
+
+        width: auto;
         z-index: 9999;
 
         background: white;
-        padding: 12px 15px;
+        padding: 14px 16px;
 
-        border-radius: 0 0 20px 20px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+        border-radius: 25px;
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
       }
 
     }
+
 
 
     @media (max-width: 768px) {
