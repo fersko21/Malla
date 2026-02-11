@@ -77,7 +77,7 @@
 <body>
 
   <h1>📚 Malla Interactiva - Lenguaje y Comunicación</h1>
-  <h2 class="dedication">Para mi amor 💖 — futura profe increíble</h2>
+  <h2 class="dedication">Para mi vida 💖 — futura profe </h2>
   <p style="text-align:center">Haz clic en una asignatura para marcarla como aprobada amor</p>
 
   <div class="grid" id="grid"></div>
@@ -87,81 +87,94 @@
   </div>
 
   <script>
-    const semesters = [
-      // Sem 1
-      ["Estudios Literarios", "Literatura General I", "Historia de la Lengua I", "Pedagogía I", "Filosofía y Educación", "Comunicación Oral y Escrita", "Práctica Inicial I"],
-      // Sem 2
-      ["Estudios Lingüísticos", "Literatura General II", "Historia de la Lengua II", "Pedagogía II", "Educación Inclusiva", "Psicología del Desarrollo", "Práctica Inicial II"],
-      // Sem 3
-      ["Géneros Literarios I", "Lectura de Lírica", "Gramática I", "Curriculum y Diversidad", "Psicología Educacional", "TIC", "Práctica Intermedia I"],
-      // Sem 4
-      ["Géneros Literarios II", "Lectura Narrativa", "Gramática II", "Cs. Sociales", "Pensamiento Crítico", "Habilidades TIC", "Práctica Intermedia II"],
-      // Sem 5
-      ["Literatura Antigua", "Lit. Hispanoamericana I", "Discurso I", "Curriculum Lenguaje", "Interculturalidad", "Desarrollo Profesional", "Práctica Intermedia III"],
-      // Sem 6
-      ["Literatura Medieval", "Lit. Hispanoamericana II", "Discurso II", "Didáctica I", "Liderazgo", "Formación Ciudadana", "Práctica Intermedia IV"],
-      // Sem 7
-      ["Literatura Clásica", "Lit. Hispanoamericana III", "Comunicación Multimodal I", "Didáctica II", "Investigación Educativa", "Curso Transversal I", "Práctica Intermedia V"],
-      // Sem 8
-      ["Literatura Moderna", "Lit. Hispanoamericana IV", "Comunicación Multimodal II", "Didáctica III", "Seminario Grado", "Curso Transversal II", "Práctica Intermedia VI"],
-      // Sem 9
-      ["Literatura Contemporánea", "Teatro Pedagógico", "Seminario Título I", "Electivo", "Práctica Profesional I"],
-      // Sem 10
-      ["Seminario Título II", "Práctica Profesional II"]
-    ];
+  const semesters = [
+    ["Estudios Literarios", "Literatura General I", "Historia de la Lengua I", "Pedagogía I", "Filosofía y Educación", "Comunicación Oral y Escrita", "Práctica Inicial I"],
 
-    const grid = document.getElementById("grid");
+    ["Estudios Lingüísticos", "Literatura General II", "Historia de la Lengua II", "Pedagogía II", "Educación Inclusiva", "Psicología del Desarrollo", "Práctica Inicial II"],
 
-    let totalCourses = 0;
+    ["Géneros Literarios I", "Lectura de Lírica", "Gramática I", "Curriculum y Diversidad", "Psicología Educacional", "TIC", "Práctica Intermedia I"],
 
-    semesters.forEach((semester, i) => {
-      const title = document.createElement("div");
-      title.className = "semester";
-      title.innerText = `Sem ${i+1}`;
-      grid.appendChild(title);
+    ["Géneros Literarios II", "Lectura Narrativa", "Gramática II", "Cs. Sociales", "Pensamiento Crítico", "Habilidades TIC", "Práctica Intermedia II"],
 
-      semester.forEach(course => {
-        totalCourses++;
-        const div = document.createElement("div");
-        div.className = "course";
-        div.innerText = course;
+    ["Literatura Antigua", "Lit. Hispanoamericana I", "Discurso I", "Curriculum Lenguaje", "Interculturalidad", "Desarrollo Profesional", "Práctica Intermedia III"],
 
-        div.addEventListener("click", () => {
-          div.classList.toggle("completed");
-          updateProgress();
-          saveProgress();
-        });
+    ["Literatura Medieval", "Lit. Hispanoamericana II", "Discurso II", "Didáctica I", "Liderazgo", "Formación Ciudadana", "Práctica Intermedia IV"],
 
-        grid.appendChild(div);
+    ["Literatura Clásica", "Lit. Hispanoamericana III", "Comunicación Multimodal I", "Didáctica II", "Investigación Educativa", "Curso Transversal I", "Práctica Intermedia V"],
+
+    ["Literatura Moderna", "Lit. Hispanoamericana IV", "Comunicación Multimodal II", "Didáctica III", "Seminario Grado", "Curso Transversal II", "Práctica Intermedia VI"],
+
+    ["Literatura Contemporánea", "Teatro Pedagógico", "Seminario Título I", "Electivo", "Práctica Profesional I"],
+
+    ["Seminario Título II", "Práctica Profesional II"]
+  ];
+
+  const grid = document.getElementById("grid");
+
+  let totalCourses = 0;
+
+  semesters.forEach((semester, i) => {
+
+    // Crear columna
+    const column = document.createElement("div");
+    column.style.display = "flex";
+    column.style.flexDirection = "column";
+    column.style.gap = "10px";
+
+    // Título
+    const title = document.createElement("div");
+    title.className = "semester";
+    title.innerText = `Sem ${i + 1}`;
+    column.appendChild(title);
+
+    // Ramos
+    semester.forEach(course => {
+      totalCourses++;
+
+      const div = document.createElement("div");
+      div.className = "course";
+      div.innerText = course;
+
+      div.addEventListener("click", () => {
+        div.classList.toggle("completed");
+        updateProgress();
+        saveProgress();
       });
+
+      column.appendChild(div);
     });
 
-    function updateProgress() {
-      const completed = document.querySelectorAll(".completed").length;
-      const percent = Math.round((completed / totalCourses) * 100);
-      document.getElementById("progress").innerText = percent + "%";
-    }
+    grid.appendChild(column);
+  });
 
-    function saveProgress() {
-      const data = [];
-      document.querySelectorAll(".course").forEach(c => {
-        data.push(c.classList.contains("completed"));
-      });
-      localStorage.setItem("malla", JSON.stringify(data));
-    }
+  function updateProgress() {
+    const completed = document.querySelectorAll(".completed").length;
+    const percent = Math.round((completed / totalCourses) * 100);
+    document.getElementById("progress").innerText = percent + "%";
+  }
 
-    function loadProgress() {
-      const data = JSON.parse(localStorage.getItem("malla"));
-      if (!data) return;
+  function saveProgress() {
+    const data = [];
+    document.querySelectorAll(".course").forEach(c => {
+      data.push(c.classList.contains("completed"));
+    });
+    localStorage.setItem("malla", JSON.stringify(data));
+  }
 
-      document.querySelectorAll(".course").forEach((c, i) => {
-        if (data[i]) c.classList.add("completed");
-      });
-      updateProgress();
-    }
+  function loadProgress() {
+    const data = JSON.parse(localStorage.getItem("malla"));
+    if (!data) return;
 
-    loadProgress();
-  </script>
+    document.querySelectorAll(".course").forEach((c, i) => {
+      if (data[i]) c.classList.add("completed");
+    });
+
+    updateProgress();
+  }
+
+  loadProgress();
+</script>
+
 
 </body>
 </html>
