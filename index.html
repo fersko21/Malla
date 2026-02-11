@@ -344,14 +344,28 @@
       const completed =
         document.querySelectorAll(".completed").length;
 
-      const percent =
-        Math.round(completed / total * 100);
+      // Protección
+      if (total === 0) return;
 
+      let percent =
+        Math.round((completed / total) * 100);
+
+      // Limitar entre 0 y 100
+      if (isNaN(percent) || !isFinite(percent)) {
+        percent = 0;
+      }
+
+      percent = Math.max(0, Math.min(100, percent));
+
+      // Barras
       [bar1, bar2].forEach(b => {
         b.style.width = percent + "%";
       });
 
-      animatePercent(percent);
+      // Texto
+      [percent1, percent2].forEach(p => {
+        p.innerText = percent + "%";
+      });
 
       let text = "";
 
@@ -364,8 +378,8 @@
 
       msg1.innerText = text;
       msg2.innerText = text;
-
     }
+
 
 
     /* Vibración suave */
