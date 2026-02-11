@@ -164,7 +164,11 @@
       div.innerText = course;
 
       div.addEventListener("click", () => {
+        const wasCompleted = div.classList.contains("completed");
         div.classList.toggle("completed");
+        if (!wasCompleted) {
+        const randomMsg = messages[Math.floor(Math.random() * messages.length)];
+        alert("💖 " + randomMsg);}
         updateProgress();
         saveProgress();
       });
