@@ -99,7 +99,10 @@
   <div class="grid" id="grid"></div>
 
   <div class="info">
-    <p><strong>Falta poquito💖:</strong> <span id="progress">0%</span></p>
+    <p id="finalText">
+      <strong>Falta poquito💖:</strong>
+      <span id="progress">0%</span>
+    </p>
   </div>
 
   <script>
@@ -180,10 +183,32 @@
   });
 
   function updateProgress() {
-    const completed = document.querySelectorAll(".completed").length;
-    const percent = Math.round((completed / totalCourses) * 100);
-    document.getElementById("progress").innerText = percent + "%";
+  const completed = document.querySelectorAll(".completed").length;
+  const percent = Math.round((completed / totalCourses) * 100);
+
+  const progressSpan = document.getElementById("progress");
+  const finalText = document.getElementById("finalText");
+
+  progressSpan.innerText = percent + "%";
+
+  // Mensaje final 💖
+  if (percent === 100) {
+
+    finalText.innerHTML = `
+      💖🎓 <strong>¡Felicidades mi amor!</strong> 🎓💖<br>
+      Lo lograste con esfuerzo, pasión y corazón.<br>
+      Estoy orgulloso de ti para siempre ❤️✨
+    `;
+
+  } else {
+
+    finalText.innerHTML = `
+      <strong>Falta poquito💖:</strong>
+      <span id="progress">${percent}%</span>
+    `;
   }
+}
+
 
   function saveProgress() {
     const data = [];
