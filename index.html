@@ -60,7 +60,13 @@
     .completed {
       background: #cdefff;
       background: #9be2e7;
-    }
+      animation: pop 0.4s ease;}
+
+    @keyframes pop {
+    0% {transform: scale(1);}
+    50% {transform: scale(1.15);}
+    100% {transform: scale(1);}}
+
 
     .dedication {
       font-family: 'Dancing Script', cursive;
